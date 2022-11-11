@@ -147,8 +147,6 @@ while i<10:
 
 # 4) переробити це завдання під меню
 
-# number = input('Enter number')
-# if number = 1:
 
 
 
