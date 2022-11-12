@@ -71,4 +71,4 @@ def test_function(a) -> None:
 test_function(8765)
 test_function(342)
 test_function(1345)
-test_function(6532)
+test_function(452)
