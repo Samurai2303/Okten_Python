@@ -114,7 +114,7 @@ amount_of_symbols(st)
 # # [1, 3, 5, 7, 9]  => [ [1], [3,5], [7,9]]
 # # [1, 3, 5, 7, 9, 11, 13]  => [[1], [3, 5], [7, 9, 11], [13]]
 
-def list_of_lists(length: int):
+def list_of_lists(length: int)->None:
     l = []
     result = []
     for i in range(length * 2):
@@ -137,7 +137,7 @@ list_of_lists(12)
 # найти со списка только уникальные числа
 # пример [1,2,3,4,2,5,1] => [ 3, 4, 5 ]
 
-def unique_numbers(list: list):
+def unique_numbers(list: list[int])->None:
     list.sort()
     l = []
     for i in range(len(list)):
