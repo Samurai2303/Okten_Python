@@ -1,3 +1,6 @@
+from abc import ABC, abstractmethod
+
+
 # Створити клас Rectangle:
 # -він має приймати дві сторони x, y
 # -описати поведінку на арифметични методи:
@@ -9,7 +12,7 @@
 # при виклику метода len() підраховувати сумму сторін
 
 class Rectangle:
-    def __init__(self, x:int, y:int):
+    def __init__(self, x: int, y: int):
         self.x = x
         self.y = y
 
@@ -46,6 +49,7 @@ print(rec1 < rec2)
 print(rec1 > rec2)
 print(len(rec1))
 
+
 ###############################################################################
 # створити класс Human(name, age)
 # створити два класси Prince и Cinderella які наслідуються від Human:
@@ -61,41 +65,24 @@ class Human:
         self.age = age
 
 
-def counter():
-    count = 0
-
-    def inner():
-        nonlocal count
-        count += 1
-
-    def get_count():
-        return count
-
-    return inner, get_count
-
-
-count, get_count = counter()
-
-
 class Cinderella(Human):
-    def __init__(self, name:str, age:int, foot_size: int):
+    __count = 0
+
+    def __init__(self, name: str, age: int, foot_size: int):
         super().__init__(name, age)
         self.foot_size = foot_size
-        count()
+        Cinderella.__count += 1
 
     def __str__(self):
-        return f'{self.name} - {self.foot_size}'
+        return f'Name - {self.name}'
 
-    def __len__(self):
-        return self.age
-
-    @staticmethod
-    def get_count():
-        print(get_count())
+    @classmethod
+    def get_count(cls):
+        print(cls.__count)
 
 
 class Prince(Human):
-    def __init__(self, name:str, age:int, boot_size: int):
+    def __init__(self, name: str, age: int, boot_size: int):
         super().__init__(name, age)
         self.boot_size = boot_size
 
@@ -108,13 +95,16 @@ class Prince(Human):
 prince = Prince('Vasya', 25, 36)
 
 cin1 = Cinderella('Vika', 20, 37)
+Cinderella.get_count()
 cin2 = Cinderella('Masha', 22, 38)
+Cinderella.get_count()
 cin3 = Cinderella('Katya', 23, 40)
 cin4 = Cinderella('Alina', 19, 36)
 cin5 = Cinderella('Aliona', 26, 39)
 
 print(prince.find_cinderella([cin1, cin2, cin3, cin4, cin5]))
 Cinderella.get_count()
+
 
 ###############################################################################
 
@@ -146,7 +136,7 @@ Cinderella.get_count()
 # isinstance(max, User) -> True
 # isinstance(shape, User) -> False
 
-from abc import ABC, abstractmethod
+
 class Printable(ABC):
     @abstractmethod
     def print(self):
@@ -157,7 +147,7 @@ class Book(Printable):
     def print(self):
         print(self.name)
 
-    def __init__(self, name:str):
+    def __init__(self, name: str):
         self.name = name
 
 
@@ -165,33 +155,37 @@ class Magazine(Printable):
     def print(self):
         print(self.name)
 
-    def __init__(self, name:str):
+    def __init__(self, name: str):
         self.name = name
 
 
 class Main:
     printable_list = []
 
-    def add(self, obj: Book | Magazine):
-        if isinstance(obj, Book) or isinstance(obj, Magazine):
-            self.printable_list.append(obj)
+    @classmethod
+    def add(cls, obj: Book | Magazine):
+        if isinstance(obj, (Book, Magazine)):
+            cls.printable_list.append(obj)
 
-    def show_all_magazines(self):
-        for item in self.printable_list:
+    @classmethod
+    def show_all_magazines(cls):
+        for item in cls.printable_list:
             if isinstance(item, Magazine):
                 item.print()
 
-    def show_all_books(self):
-        for item in self.printable_list:
+    @classmethod
+    def show_all_books(cls):
+        for item in cls.printable_list:
             if isinstance(item, Book):
                 item.print()
 
-Main.add(Main,Magazine('Magazine1'))
-Main.add(Main, Book('Book1'))
-Main.add(Main, Magazine('Magazine3'))
-Main.add(Main, Magazine('Magazine2'))
-Main.add(Main, Book('Book2'))
 
-Main.show_all_magazines(Main)
+Main.add(Magazine('Magazine1'))
+Main.add(Book('Book1'))
+Main.add(Magazine('Magazine3'))
+Main.add(Magazine('Magazine2'))
+Main.add(Book('Book2'))
+
+Main.show_all_magazines()
 print('-' * 40)
-Main.show_all_books(Main)
+Main.show_all_books()
